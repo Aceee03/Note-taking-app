@@ -40,11 +40,11 @@ cd frontend/notes-app
 npm i
 ```
 
-**3 -- In the backend directory, create a '.env' file that contains your own access token secret (could be anything, it's personal)
+**3 -- In the backend directory, create a '.env' file that contains your own access token secret (could be anything, it's personal)**
 ```
 ACCESS_TOKEN_SECRET = yourOwnAccessTokenSecret
 ```
-**4 -- In the backend directory create a 'config.json' file that contains the connection string for the mongoDB database cluster
+**4 -- In the backend directory create a 'config.json' file that contains the connection string for the mongoDB database cluster**
 you can get that by starting your own cluster on the official mongoDB website, it usually looks similar to this:
 ```
 {
@@ -53,14 +53,15 @@ JWT_SECRET=your_jwt_secret_key"
 }
 ```
 
-**5 -- Now you should run two separate terminals on your VS Code, one for the frontend and one for the backend
-//For the backend, run the command:
+**5 -- Now you should run two separate terminals on your VS Code, one for the frontend and one for the backend**
+
+#### For the backend, run the command:
 ```
 npm start
 ```
-//For the frontend, run the command:
+#### For the frontend, run the command:
 ```
 npm run dev
 ```
 
-**6 -- The app is now running on 'http://localhost:5173'
+**6 -- The app is now running on 'http://localhost:5173'**
