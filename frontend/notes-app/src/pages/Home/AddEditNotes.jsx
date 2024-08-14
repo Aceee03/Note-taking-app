@@ -84,7 +84,7 @@ const AddEditNotes = ({ getAllNotes, noteData, type, onClose }) => {
         },
       });
       Toast.fire({
-        icon: "success",
+        icon: "info",
         title: "Note updated",
       });
     } else {

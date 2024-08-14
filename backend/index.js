@@ -220,26 +220,27 @@ app.delete("/delete-note/:noteId", authenticateToken, async (req, res) => {
 // PIN NOTE API
 app.put("/update-note-pinned/:noteId", authenticateToken, async (req, res) => {
   const noteId = req.params.noteId;
-  const { isPinned } = req.body;
   const { user } = req.user;
+
   try {
     const note = await Note.findOne({ _id: noteId, userId: user._id });
     if (!note) {
       return res.status(404).json({ error: true, message: "Note not found" });
     }
 
-    if (isPinned) note.isPinned = isPinned;
+    note.isPinned = !note.isPinned;
 
     await note.save();
+
     return res.json({
       error: false,
       note,
-      message: "Note pinned successfully",
+      message: "Note pin status updated successfully",
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       error: true,
-      message: "Internal server error during note pin",
+      message: "Internal server error during note pin update",
     });
   }
 });
@@ -255,11 +256,49 @@ app.get("/get-user", authenticateToken, async (req, res) => {
   }
 
   return res.json({
-    user: { fullName: isUser.fullName, email: isUser.email, _id: isUser._id , createdOn: isUser.createdOn },
-    message: ""
+    user: {
+      fullName: isUser.fullName,
+      email: isUser.email,
+      _id: isUser._id,
+      createdOn: isUser.createdOn,
+    },
+    message: "",
   });
 });
 
+// SEARCH NOTES
+app.get("/search-notes/", authenticateToken, async (req, res) => {
+  const { user } = req.user;
+  const { query } = req.query;
+
+  if (!query) {
+    return res.status(401).json({
+      error: true,
+      message: "Search query is required",
+    });
+  }
+
+  try {
+    const matchingNotes = await Note.find({
+      userId: user._id,
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { content: { $regex: new RegExp(query, "i") } },
+      ],
+    });
+
+    return res.json({
+      error: false,
+      notes: matchingNotes,
+      message: "Notes matching the search query retrieved successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: true,
+      message: "Internal server error during search",
+    });
+  }
+});
 
 app.listen(8000);
 

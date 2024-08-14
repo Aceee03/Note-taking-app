@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../utils/axiosInstance";
 import EmptyCard from "../../components/Cards/EmptyCard";
 import AddNotesImg from "../../assets/images/AddNotesImage.svg";
+import NoData from "../../assets/images/NoNotes.svg";
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -21,6 +22,7 @@ const Home = () => {
 
   const [userInfo, setUserInfo] = useState(null);
   const [allNotes, setAllNotes] = useState(null);
+  const [isSearch, setIsSearch] = useState(false);
   const navigate = useNavigate();
 
   const handleEdit = (noteDetails) => {
@@ -103,6 +105,60 @@ const Home = () => {
     });
   };
 
+  // SEARCH
+  const onSearchNote = async (query) => {
+    try {
+      const response = await axiosInstance.get("/search-notes", {
+        params: { query },
+      });
+
+      if (response.data && response.data.notes) {
+        setIsSearch(true);
+        setAllNotes(response.data.notes);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // PIN A NOTE
+  const updateIsPinned = async (noteData) => {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-start",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: false,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      },
+    });
+
+    const { _id, isPinned } = noteData;
+
+    try {
+      const response = await axiosInstance.put("/update-note-pinned/" + _id, {
+        isPinned: !isPinned, // Toggle isPinned based on its current value
+      });
+
+      if (response.data && response.data.note) {
+        Toast.fire({
+          icon: "info",
+          title: "Note updated",
+        });
+        getAllNotes(); // Refresh the notes list
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClearSearch = () => {
+    setIsSearch(false);
+    getAllNotes();
+  };
+
   useEffect(() => {
     getAllNotes();
     getUserInfo();
@@ -111,7 +167,15 @@ const Home = () => {
 
   return (
     <>
-      {!userInfo ? <>Fetching Data...</> : <Navbar userInfo={userInfo} />}
+      {!userInfo ? (
+        <>Fetching Data...</>
+      ) : (
+        <Navbar
+          userInfo={userInfo}
+          onSearchNote={onSearchNote}
+          handleClearSearch={handleClearSearch}
+        />
+      )}
 
       <div className="mx-auto container">
         {allNotes ? (
@@ -126,14 +190,18 @@ const Home = () => {
                 isPinned={item.isPinned}
                 onEdit={() => handleEdit(item)}
                 onDelete={() => deleteNote(item)}
-                onPinNote={() => {}}
+                onPinNote={() => updateIsPinned(item)}
               />
             ))}
           </div>
         ) : (
           <EmptyCard
-            imgSrc={AddNotesImg}
-            message={`Start creating notes by clicking the add button down below`}
+            imgSrc={isSearch ? NoData : AddNotesImg}
+            message={
+              isSearch
+                ? `Oops! No notes matching your search were found`
+                : `Start creating notes by clicking the add button down below`
+            }
           />
         )}
       </div>
