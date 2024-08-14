@@ -54,11 +54,11 @@ JWT_SECRET=your_jwt_secret_key"
 ```
 
 **5 -- Now you should run two separate terminals on your VS Code, one for the frontend and one for the backend
-** For the backend, run the command:
+//For the backend, run the command:
 ```
 npm start
 ```
-** For the frontend, run the command:
+//For the frontend, run the command:
 ```
 npm run dev
 ```
