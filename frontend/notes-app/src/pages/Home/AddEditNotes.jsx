@@ -146,7 +146,7 @@ const AddEditNotes = ({ getAllNotes, noteData, type, onClose }) => {
       {error && <p className="text-red-500 text-xs pt-4">{error}</p>}
 
       <button
-        className="fixed bottom-5 right-5 btn-primary text-xs font-semibold mt-5 p-3 flex items-center justify-center"
+        className="btn-primary text-xs font-semibold mt-5 p-3 flex items-center justify-center"
         onClick={handleAddNote}
       >
         {type === "edit" ? "Update note" : "Add note"}
