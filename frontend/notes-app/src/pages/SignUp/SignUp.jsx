@@ -35,12 +35,13 @@ const SignUp = () => {
     }
 
     setError("");
+    const lowerCaseEmail = email.toLowerCase()
 
     //Sign Up API Call
     try {
       const response = await axiosInstance.post("/create-account", {
         fullName: name,
-        email,
+        email: lowerCaseEmail,
         password,
       })
       // HANDLE SUCCESSFULL SIGNUP CALL
