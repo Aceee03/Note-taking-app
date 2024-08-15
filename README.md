@@ -18,4 +18,4 @@ This is a simple note-taking application built using the MERN stack (MongoDB, Ex
 - **Authentication**: JWT (JSON Web Token)
 - **Other Tools**: Axios, Moment.js, SweetAlert2
 
-**The app is currently hosted on [here](sigmma.netlify.app) you can check it out**
+**The app is currently hosted on [here](http://sigmma.netlify.app) you can check it out**
