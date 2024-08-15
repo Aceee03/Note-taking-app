@@ -9,7 +9,7 @@ const Searchbar = ({ value, onChange, handleSearch, onClearSearch }) => {
     }
   };
   return (
-    <div className="w-80 flex items-center px-4 bg-slate-100 rounded-lg">
+    <div className="md:w-80 w-60 flex items-center px-4 bg-slate-100 rounded-lg">
       <input
         type="text"
         value={value}

@@ -179,7 +179,7 @@ const Home = () => {
 
       <div className="mx-auto container">
         {allNotes ? (
-          <div className="grid grid-cols-3 gap-4 mt-8 ">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 mx-10">
             {allNotes.map((item) => (
               <NoteCard
                 key={item._id}
@@ -225,7 +225,7 @@ const Home = () => {
           },
         }}
         contentLabel=""
-        className="w-[40%] max-h-1/2 bg-white rounded-md mx-auto mt-14 p-5"
+        className="md:w-[40%] w-96 mx-auto max-h-1/2 bg-white rounded-md mt-14 p-5"
       >
         <AddEditNotes
           type={openAddEditModal.type}

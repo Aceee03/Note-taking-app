@@ -18,7 +18,7 @@ const ProfileInfo = ({ userInfo, onLogout }) => {
       </div>
 
       <div className="flex flex-col justify-center">
-        <p className="text-sm font-medium">{userInfo.fullName}</p>
+        <p className="text-sm font-medium hidden md:inline">{userInfo.fullName}</p>
         <button
           className="text-sm underline text-slate-700 hover:text-red-600"
           onClick={onLogout}
